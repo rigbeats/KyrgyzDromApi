@@ -6,7 +6,8 @@ namespace Library.Application.Users.Queries.GetUserInfo
 	{
 		public GetUserInfoValidator()
 		{
-			RuleFor(q => q.UserId).NotEmpty();
+			RuleFor(q => q.UserId)
+				.NotEmpty().WithMessage("Идентификатор пользователя не должен быть пустым");
 		}
 	}
 }

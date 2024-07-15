@@ -22,25 +22,6 @@ namespace Library.Persistance.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Library.Domain.Entities.Role", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Id")
-                        .IsUnique();
-
-                    b.ToTable("Roles");
-                });
-
             modelBuilder.Entity("Library.Domain.Entities.User", b =>
                 {
                     b.Property<string>("Id")
@@ -72,21 +53,18 @@ namespace Library.Persistance.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(65)
+                        .HasColumnType("character varying(65)");
 
                     b.Property<string>("PasswordSalt")
                         .IsRequired()
                         .HasMaxLength(40)
                         .HasColumnType("character varying(40)");
 
-                    b.Property<string>("RoleId")
-                        .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -118,15 +96,6 @@ namespace Library.Persistance.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserVerificationCodes");
-                });
-
-            modelBuilder.Entity("Library.Domain.Entities.User", b =>
-                {
-                    b.HasOne("Library.Domain.Entities.Role", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoleId");
-
-                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Library.Domain.Entities.UserVerificationCode", b =>

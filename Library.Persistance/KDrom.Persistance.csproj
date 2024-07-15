@@ -23,13 +23,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Library.Application\Library.Application.csproj" />
+    <ProjectReference Include="..\Library.Application\KDrom.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="appsettings.persistance.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Folder Include="EntityTypeConfiguration\" />
   </ItemGroup>
 
 </Project>

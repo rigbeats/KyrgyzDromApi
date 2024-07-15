@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Library.Domain.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace Library.Domain.Entities
 {
@@ -16,7 +17,7 @@ namespace Library.Domain.Entities
 		[MaxLength(50)]
 		public string Login { get; set; }
 
-		[MaxLength(50)]
+		[MaxLength(65)]
 		public string Password { get; set; }
 
 		[MaxLength(40)]
@@ -25,9 +26,7 @@ namespace Library.Domain.Entities
 		public bool IsActivated { get; set; }
 
 
-		[MaxLength(36)]
-		public string? RoleId { get; set; }
-		
-		public Role? Role { get; set; }
+		[EnumDataType(typeof(UserRole))]
+		public UserRole Role { get; set; }
 	}
 }

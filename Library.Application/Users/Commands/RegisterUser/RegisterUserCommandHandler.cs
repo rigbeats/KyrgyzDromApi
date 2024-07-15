@@ -2,6 +2,7 @@
 using Library.Application.Interfaces;
 using Library.Domain.Dto;
 using Library.Domain.Entities;
+using Library.Domain.Enums;
 using Library.Domain.Services;
 using Library.Utilities.Security;
 using MediatR;
@@ -26,14 +27,14 @@ namespace Library.Application.Users.Commands.RegisterUser
 			var userDb = await _context.Users.FirstOrDefaultAsync(x => x.Login == request.Login 
 				|| x.Email == request.Email, cancellationToken);
 
-			if (userDb != null)
-			{
-				if (userDb.Login == request.Login)
-					throw new AlreadyExistsException("Пользователь с таким логином уже существует");
-
-				if (userDb.Email == request.Email)
-					throw new AlreadyExistsException("Пользователь с такой почтой уже зарегистрирован");
-			}
+			//if (userDb != null)
+			//{
+			//	if (userDb.Login == request.Login)
+			//		throw new AlreadyExistsException("Пользователь с таким логином уже существует");
+//
+//				if (userDb.Email == request.Email)
+//					throw new AlreadyExistsException("Пользователь с такой почтой уже зарегистрирован");
+//			}
 
 			var hashedPassword = PasswordHasher.HashPassword(request.Password);
 			var user = new User()
@@ -45,11 +46,13 @@ namespace Library.Application.Users.Commands.RegisterUser
 				Login = request.Login,
 				Password = hashedPassword.PasswordHash,
 				PasswordSalt = hashedPassword.Salt,
-				IsActivated = false
+				IsActivated = false,
+				Role = UserRole.User
 			};
 
-			await _context.Users.AddAsync(user, cancellationToken);
-			await _context.SaveChangesAsync(cancellationToken);
+			//await _context.Users.AddAsync(user, cancellationToken);
+			//await _context.SaveChangesAsync(cancellationToken);
+			await SendMessageToEmail(user.Email, user.Id, cancellationToken);
 
 			return user.Id;
 		}
@@ -71,7 +74,7 @@ namespace Library.Application.Users.Commands.RegisterUser
 			};
 
 			await _context.UserVerificationCodes.AddAsync(dbCode, cancellationToken);
-			await _context.SaveChangesAsync(cancellationToken);
+			//await _context.SaveChangesAsync(cancellationToken);
 
 			await _emailService.SendAsync(new EmailDto()
 			{

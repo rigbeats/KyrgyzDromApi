@@ -11,11 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Library.Utilities\Library.Utilities.csproj" />
+    <ProjectReference Include="..\Library.Utilities\KDrom.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

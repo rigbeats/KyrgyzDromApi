@@ -6,23 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Library.Persistance.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class Init_Database : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    Title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -32,19 +20,14 @@ namespace Library.Persistance.Migrations
                     Lastname = table.Column<string>(type: "character varying(35)", maxLength: 35, nullable: false),
                     Email = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     Login = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Password = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    Password = table.Column<string>(type: "character varying(65)", maxLength: 65, nullable: false),
                     PasswordSalt = table.Column<string>(type: "character varying(40)", maxLength: 40, nullable: false),
                     IsActivated = table.Column<bool>(type: "boolean", nullable: false),
-                    RoleId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true)
+                    Role = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Users_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -69,17 +52,6 @@ namespace Library.Persistance.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Roles_Id",
-                table: "Roles",
-                column: "Id",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_RoleId",
-                table: "Users",
-                column: "RoleId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_UserVerificationCodes_UserId",
                 table: "UserVerificationCodes",
                 column: "UserId");
@@ -93,9 +65,6 @@ namespace Library.Persistance.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
         }
     }
 }

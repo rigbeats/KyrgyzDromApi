@@ -1,5 +1,6 @@
 ﻿using Library.Application.Interfaces;
 using Library.Domain.Services;
+using Library.Persistance.Configuration;
 using Library.Persistance.ServicesImpl;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,11 +10,11 @@ namespace Library.Persistance
 {
 	public static class DependencyInjection
 	{
-		public static IServiceCollection AddPersistance(this IServiceCollection services, IConfiguration configuration)
+		public static IServiceCollection AddPersistanceServices(this IServiceCollection services, IConfiguration configuration)
 		{
 			services
 				.AddDatabase(configuration)
-				.AddEmailService();
+				.AddServices();
 
 			return services;
 		}
@@ -31,9 +32,12 @@ namespace Library.Persistance
 			return services;
 		}
 
-		private static IServiceCollection AddEmailService(this IServiceCollection services)
+		private static IServiceCollection AddServices(this IServiceCollection services)
 		{
-			return services.AddTransient<IEmailService, EmailService>();
+			services
+				.AddTransient<IEmailService, EmailService>();
+
+			return services;
 		}
 	}
 }

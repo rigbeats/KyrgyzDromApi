@@ -9,15 +9,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{E9C4F8E2-3D36-4A82-BD4B-0169EE4218CB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Domain", "Library.Domain\Library.Domain.csproj", "{1EEFB598-B848-437D-9BCE-7E55AEB39804}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KDrom.Domain", "Library.Domain\KDrom.Domain.csproj", "{1EEFB598-B848-437D-9BCE-7E55AEB39804}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Application", "Library.Application\Library.Application.csproj", "{84E675F1-576D-4927-9412-0036B2C669D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KDrom.Application", "Library.Application\KDrom.Application.csproj", "{84E675F1-576D-4927-9412-0036B2C669D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Persistance", "Library.Persistance\Library.Persistance.csproj", "{EA082484-5EDE-49C4-B406-37F56A15F8F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KDrom.Persistance", "Library.Persistance\KDrom.Persistance.csproj", "{EA082484-5EDE-49C4-B406-37F56A15F8F4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.WebApi", "Library.WebApi\Library.WebApi.csproj", "{C83D819E-04B0-4995-A37E-2E9DEF125A82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KDrom.WebApi", "Library.WebApi\KDrom.WebApi.csproj", "{C83D819E-04B0-4995-A37E-2E9DEF125A82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Utilities", "Library.Utilities\Library.Utilities.csproj", "{C89F4527-261B-471E-8F6F-23778C5EF35B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KDrom.Utilities", "Library.Utilities\KDrom.Utilities.csproj", "{C89F4527-261B-471E-8F6F-23778C5EF35B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

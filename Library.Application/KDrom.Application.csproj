@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Library.Domain\Library.Domain.csproj" />
-    <ProjectReference Include="..\Library.Utilities\Library.Utilities.csproj" />
+    <ProjectReference Include="..\Library.Domain\KDrom.Domain.csproj" />
+    <ProjectReference Include="..\Library.Utilities\KDrom.Utilities.csproj" />
   </ItemGroup>
 
 </Project>
