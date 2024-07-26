@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Library.Application.Interfaces
 {
-	public interface IRecipeDbContext
+	public interface IDromDbContext
 	{
 		public DbSet<User> Users { get; set; }
 		public DbSet<UserVerificationCode> UserVerificationCodes { get; set; }

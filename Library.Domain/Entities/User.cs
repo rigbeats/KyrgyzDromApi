@@ -25,8 +25,6 @@ namespace Library.Domain.Entities
 
 		public bool IsActivated { get; set; }
 
-
-		[EnumDataType(typeof(UserRole))]
 		public UserRole Role { get; set; }
 	}
 }

@@ -9,10 +9,10 @@ namespace Library.Application.Users.Queries.GetUserInfo
 {
 	public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, UserVm>
 	{
-		private readonly IRecipeDbContext _context;
+		private readonly IDromDbContext _context;
 		private readonly IMapper _mapper;
 
-        public GetUserInfoQueryHandler(IRecipeDbContext context,
+        public GetUserInfoQueryHandler(IDromDbContext context,
 			IMapper mapper)
         {
             _context = context;

@@ -27,7 +27,7 @@ namespace Library.Persistance
 				.AddDbContext<RecipeDbContext>(options =>
 					options.UseNpgsql(connectionString));
 
-			services.AddScoped<IRecipeDbContext, RecipeDbContext>();
+			services.AddScoped<IDromDbContext, RecipeDbContext>();
 
 			return services;
 		}

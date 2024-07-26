@@ -13,10 +13,10 @@ namespace Library.Application.Users.Commands.RegisterUser
 {
 	public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, string>
 	{
-		private readonly IRecipeDbContext _context;
+		private readonly IDromDbContext _context;
 		private readonly IEmailService _emailService;
 
-		public RegisterUserCommandHandler(IRecipeDbContext context, IEmailService emailService)
+		public RegisterUserCommandHandler(IDromDbContext context, IEmailService emailService)
 		{
 			_context = context;
 			_emailService = emailService;
@@ -27,14 +27,14 @@ namespace Library.Application.Users.Commands.RegisterUser
 			var userDb = await _context.Users.FirstOrDefaultAsync(x => x.Login == request.Login 
 				|| x.Email == request.Email, cancellationToken);
 
-			//if (userDb != null)
-			//{
-			//	if (userDb.Login == request.Login)
-			//		throw new AlreadyExistsException("Пользователь с таким логином уже существует");
-//
-//				if (userDb.Email == request.Email)
-//					throw new AlreadyExistsException("Пользователь с такой почтой уже зарегистрирован");
-//			}
+			if (userDb != null)
+			{
+				if (userDb.Login == request.Login)
+					throw new AlreadyExistsException("Пользователь с таким логином уже существует");
+
+				if (userDb.Email == request.Email)
+					throw new AlreadyExistsException("Пользователь с такой почтой уже зарегистрирован");
+			}
 
 			var hashedPassword = PasswordHasher.HashPassword(request.Password);
 			var user = new User()
@@ -50,8 +50,8 @@ namespace Library.Application.Users.Commands.RegisterUser
 				Role = UserRole.User
 			};
 
-			//await _context.Users.AddAsync(user, cancellationToken);
-			//await _context.SaveChangesAsync(cancellationToken);
+			await _context.Users.AddAsync(user, cancellationToken);
+			await _context.SaveChangesAsync(cancellationToken);
 			await SendMessageToEmail(user.Email, user.Id, cancellationToken);
 
 			return user.Id;
@@ -74,7 +74,7 @@ namespace Library.Application.Users.Commands.RegisterUser
 			};
 
 			await _context.UserVerificationCodes.AddAsync(dbCode, cancellationToken);
-			//await _context.SaveChangesAsync(cancellationToken);
+			await _context.SaveChangesAsync(cancellationToken);
 
 			await _emailService.SendAsync(new EmailDto()
 			{
