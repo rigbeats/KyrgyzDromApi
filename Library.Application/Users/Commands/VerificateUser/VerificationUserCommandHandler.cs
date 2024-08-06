@@ -1,6 +1,5 @@
-﻿using KDrom.Application.Common.Exceptions;
+﻿using KDrom.Domain.Interfaces.IRepositories;
 using Library.Application.Common.Exceptions;
-using Library.Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,28 +7,39 @@ namespace KDrom.Application.Users.Commands.VerificateUser
 {
     public class VerificationUserCommandHandler : IRequestHandler<VerificateUserCommand>
     {
-        private readonly IAppDbContext _context;
+        private readonly IUserRepository _userRepository;
+        private readonly IVerificationCodeRepository _verificationCodeRepository;
 
-        public VerificationUserCommandHandler(IAppDbContext context)
+        public VerificationUserCommandHandler(IVerificationCodeRepository verificationCodeRepository,
+            IUserRepository userRepository)
         {
-            _context = context;            
+            _verificationCodeRepository = verificationCodeRepository;
+            _userRepository = userRepository;
         }
 
         public async Task Handle(VerificateUserCommand request, CancellationToken cancellationToken)
         {
-            var dbUser = await _context.Users.FindAsync(request.Id, cancellationToken);
+            var userDb = await _userRepository.GetByIdAsync(request.UserId);
 
-            if (dbUser is null)
+            if (userDb is null)
                 throw new InnerException("Пользователь не найден");
 
-            var dbVerificationCode = await _context.UserVerificationCodes
-                .FirstOrDefaultAsync(x => x.UserId == request.Id, cancellationToken);
+            var verificationCodeDb = await _verificationCodeRepository.GetByUserIdAsync(request.UserId);
 
-            if (dbVerificationCode is null)
-                throw new InnerException("Код верификации не найден");
+            if (verificationCodeDb is null)
+                throw new InnerException("Не найден код верификации");
 
-            if (dbVerificationCode.IsUsed)
-                throw new ExpiredException("Токен активации уже использован");
+            if (verificationCodeDb.ExpiredAt > DateTime.UtcNow)
+                throw new InnerException("Истекло время использование кода активации");
+
+            if (verificationCodeDb.Code != request.VerificationCode)
+                throw new InnerException("Неверный код активации");
+
+            if (verificationCodeDb.IsUsed)
+                throw new InnerException("Код активации уже использован");
+
+            userDb.IsEmailConfirmed = true;
+            await _userRepository.SaveChangesAsync();
         }
     }
 }

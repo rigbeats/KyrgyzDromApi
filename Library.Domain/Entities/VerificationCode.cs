@@ -2,12 +2,12 @@
 
 namespace Library.Domain.Entities
 {
-	public class UserVerificationCode : EntityBase
+	public class VerificationCode : EntityBase
 	{
 		public DateTime ExpiredAt { get; set; }
 
 		[MaxLength(6)]
-		public string VerificationCode { get; set; }
+		public string Code { get; set; }
 
 		public bool IsUsed { get; set; }
 

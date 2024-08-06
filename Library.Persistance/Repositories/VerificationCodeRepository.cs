@@ -5,21 +5,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace KDrom.Persistance.Repositories
 {
-    public class UserVerificationCodeRepository : IUserVerificationCodeRepository
+    public class VerificationCodeRepository : IVerificationCodeRepository
     {
         private readonly AppDbContext _context;
 
-        public UserVerificationCodeRepository(AppDbContext context)
+        public VerificationCodeRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task AddAsync(UserVerificationCode verificationCode)
+        public async Task AddAsync(VerificationCode verificationCode)
         {
             await _context.AddAsync(verificationCode);
         }
 
-        public async Task<UserVerificationCode?> GetByUserIdAsync(string id)
+        public async Task<VerificationCode?> GetByUserIdAsync(string id)
         {
             return await _context.UserVerificationCodes.FirstOrDefaultAsync(x => x.UserId == id);
         }
