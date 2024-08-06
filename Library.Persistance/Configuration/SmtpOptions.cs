@@ -1,6 +1,6 @@
 ﻿namespace Library.Persistance.Configuration
 {
-	public class SmtpSettings
+	public class SmtpOptions
 	{
 		public string Host { get; set; }
 		public int Port { get; set; }

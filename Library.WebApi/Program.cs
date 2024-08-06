@@ -10,7 +10,7 @@ public class Program
 	{
 		var builder = WebApplication.CreateBuilder(args);
 
-		builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+		builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("SmtpSettings"));
 
 		builder.Services
 			.AddPersistanceServices(builder.Configuration)

@@ -14,6 +14,7 @@ namespace Library.Persistance
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
+			Database.Migrate();
 		}
 	}
 }

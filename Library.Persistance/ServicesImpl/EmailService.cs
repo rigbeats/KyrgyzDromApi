@@ -9,9 +9,9 @@ namespace Library.Persistance.ServicesImpl
 {
 	public class EmailService : IEmailService
 	{
-		private readonly SmtpSettings _smtpSettings;
+		private readonly SmtpOptions _smtpSettings;
         
-		public EmailService(IOptions<SmtpSettings> smtpSettings)
+		public EmailService(IOptions<SmtpOptions> smtpSettings)
         {
             _smtpSettings = smtpSettings.Value;
         }
