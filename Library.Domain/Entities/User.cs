@@ -18,12 +18,12 @@ namespace Library.Domain.Entities
 		public string Login { get; set; }
 
 		[MaxLength(65)]
-		public string Password { get; set; }
+		public string PasswordHash { get; set; }
 
 		[MaxLength(40)]
 		public string PasswordSalt { get; set; }
 
-		public bool IsActivated { get; set; }
+		public bool IsEmailConfirmed { get; set; }
 
 		public UserRole Role { get; set; }
 	}

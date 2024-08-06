@@ -1,18 +1,17 @@
 ﻿using AutoMapper;
+using KDrom.Application.Users.Queries.GetUserInfo;
 using Library.Application.Common.Exceptions;
-using Library.Application.Interfaces;
-using Library.Application.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Library.Application.Users.Queries.GetUserInfo
 {
-	public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, UserVm>
+    public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, UserVm>
 	{
-		private readonly IDromDbContext _context;
+		private readonly IAppDbContext _context;
 		private readonly IMapper _mapper;
 
-        public GetUserInfoQueryHandler(IDromDbContext context,
+        public GetUserInfoQueryHandler(IAppDbContext context,
 			IMapper mapper)
         {
             _context = context;
@@ -23,7 +22,7 @@ namespace Library.Application.Users.Queries.GetUserInfo
 		{
 			var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.UserId);
 			if (user == null)
-				throw new NotFoundException("Пользователь не найден");
+				throw new InnerException("Пользователь не найден");
 
 			return _mapper.Map<UserVm>(user);
 		}

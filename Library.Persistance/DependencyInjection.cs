@@ -1,6 +1,6 @@
-﻿using Library.Application.Interfaces;
+﻿using KDrom.Domain.Interfaces.IRepositories;
+using KDrom.Persistance.Repositories;
 using Library.Domain.Services;
-using Library.Persistance.Configuration;
 using Library.Persistance.ServicesImpl;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Library.Persistance
 {
-	public static class DependencyInjection
+    public static class DependencyInjection
 	{
 		public static IServiceCollection AddPersistanceServices(this IServiceCollection services, IConfiguration configuration)
 		{
@@ -24,10 +24,11 @@ namespace Library.Persistance
 			var connectionString = configuration.GetConnectionString("RecipeConnectionString");
 
 			services
-				.AddDbContext<RecipeDbContext>(options =>
+				.AddDbContext<AppDbContext>(options =>
 					options.UseNpgsql(connectionString));
 
-			services.AddScoped<IDromDbContext, RecipeDbContext>();
+			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IUserVerificationCodeRepository, UserVerificationCodeRepository>();
 
 			return services;
 		}

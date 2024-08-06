@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Library.Persistance.Migrations
 {
-    [DbContext(typeof(RecipeDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20240714113406_Init_Database")]
     partial class Init_Database
     {

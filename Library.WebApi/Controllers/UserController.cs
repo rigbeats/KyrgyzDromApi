@@ -1,4 +1,4 @@
-﻿using Library.Application.Models;
+﻿using KDrom.Application.Users.Queries.GetUserInfo;
 using Library.Application.Users.Commands.RegisterUser;
 using Library.Application.Users.Queries.GetUserInfo;
 using MediatR;

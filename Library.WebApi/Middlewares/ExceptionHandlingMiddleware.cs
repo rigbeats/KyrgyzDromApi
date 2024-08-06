@@ -23,7 +23,7 @@ namespace Library.WebApi.Middlewares
 			{
 				await _next(httpContext);
 			}
-			catch (NotFoundException ex)
+			catch (InnerException ex)
 			{
 				await HandleExceptionAsync(httpContext,
 					ex.Message,
