@@ -6,11 +6,11 @@ namespace KDrom.Domain.Interfaces.IRepositories
     {
         Task AddAsync(User user);
 
-        Task<User?> GetByIdAsync(int id);
+        Task<User?> GetByIdAsync(string id);
         
         void UpdateAsync(User user);
 
-        Task RemoveAsync(int id);
+        Task RemoveAsync(string id);
 
         IQueryable<User> GetAll();
 

@@ -1,9 +1,9 @@
-﻿using KDrom.Application.Users.Queries.GetUserInfo;
+﻿using KDrom.Application.Users.Commands.VerificateUser;
+using KDrom.Application.Users.Queries.GetUserInfo;
 using Library.Application.Users.Commands.RegisterUser;
 using Library.Application.Users.Queries.GetUserInfo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
 
 namespace Library.WebApi.Controllers
 {
@@ -27,19 +27,20 @@ namespace Library.WebApi.Controllers
 		}
 
 		[HttpPatch("verif")]
-		public async Task<ActionResult> Verificate()
+		public async Task<ActionResult> Verificate([FromBody] VerificateUserCommand request)
 		{
-			//await
+			await _mediator.Send(request);
 			return NoContent();
 		}
 
-		[HttpGet("get/{id}")]
+		[HttpGet("{id}")]
 		public async Task<ActionResult<UserVm>> Get(string id)
 		{
 			var request = new GetUserInfoQuery()
 			{
 				UserId = id
 			};
+
 			var userVm = await _mediator.Send(request);
 			return Ok(userVm);
 		}

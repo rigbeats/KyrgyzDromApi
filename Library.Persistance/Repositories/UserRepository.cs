@@ -1,6 +1,5 @@
 ﻿using KDrom.Domain.Interfaces.IRepositories;
 using Library.Application.Common.Exceptions;
-using Library.Application.Users.Commands.RegisterUser;
 using Library.Domain.Entities;
 using Library.Persistance;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +20,7 @@ namespace KDrom.Persistance.Repositories
             await _context.Users.AddAsync(user);
         }
 
-        public async Task RemoveAsync(int id)
+        public async Task RemoveAsync(string id)
         {
             var uwerDb = await _context.Users.FindAsync(id);
 
@@ -59,6 +58,11 @@ namespace KDrom.Persistance.Repositories
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();
+        }
+
+        public Task<User?> GetByIdAsync(string id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

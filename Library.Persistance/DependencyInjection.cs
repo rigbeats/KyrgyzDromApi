@@ -28,7 +28,7 @@ namespace Library.Persistance
 					options.UseNpgsql(connectionString));
 
 			services.AddScoped<IUserRepository, UserRepository>();
-			services.AddScoped<IUserVerificationCodeRepository, UserVerificationCodeRepository>();
+			services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
 
 			return services;
 		}

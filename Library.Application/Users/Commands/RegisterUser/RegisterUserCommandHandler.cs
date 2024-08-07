@@ -13,11 +13,11 @@ namespace Library.Application.Users.Commands.RegisterUser
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, string>
 	{
 		private readonly IUserRepository _userRepository;
-		private readonly IUserVerificationCodeRepository _userVerificationCodeRepository;
+		private readonly IVerificationCodeRepository _userVerificationCodeRepository;
 		private readonly IEmailService _emailService;
 
 		public RegisterUserCommandHandler(IUserRepository userRepository, 
-			IUserVerificationCodeRepository userVerificationCodeRepository, IEmailService emailService)
+			IVerificationCodeRepository userVerificationCodeRepository, IEmailService emailService)
 		{
 			_userVerificationCodeRepository = userVerificationCodeRepository;
 			_userRepository = userRepository;
@@ -61,11 +61,11 @@ namespace Library.Application.Users.Commands.RegisterUser
 				throw new InnerException("Не найден шаблон для отправки сообщения");
 
 			var message = template;
-			var dbCode = new UserVerificationCode()
+			var dbCode = new VerificationCode()
 			{
 				Id = Guid.NewGuid().ToString(),
 				ExpiredAt = DateTime.UtcNow.AddMinutes(15),
-				VerificationCode = verificationCode,
+				Code = verificationCode,
 				UserId = userId,
 			};
 
