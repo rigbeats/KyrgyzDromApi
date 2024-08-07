@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Library.WebApi
 {
-	public static class DependencyInjection
+    public static class DependencyInjection
 	{
-		public static IServiceCollection AddWebApiServices(this IServiceCollection services)
+		public static IServiceCollection AddWebApiServices(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddControllers();
 
 			return services
+				.AddJwtToken(configuration)
 				.AddSwaggerGen()
 				.AddCorsPolicy();
 		}
@@ -30,7 +31,7 @@ namespace Library.WebApi
 			return services;
 		}
 
-		private static IServiceCollection AddJwtToken(this IServiceCollection services)
+		private static IServiceCollection AddJwtToken(this IServiceCollection services, IConfiguration configuration)
 		{
 			services.AddAuthentication(opt =>
 			{
@@ -43,12 +44,14 @@ namespace Library.WebApi
 						ValidateIssuer = true,
 						ValidateAudience = false,
 						ValidateLifetime = true,
-						ValidIssuer = ,
-						IssuerSigningKey =
+						ValidIssuer = configuration["JwtOptions:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtOptions:Secret"]))
 					};
 				});
 
 			services.AddAuthorization();
+
+			return services;
 		}
 	}
 }

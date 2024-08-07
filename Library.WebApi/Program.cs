@@ -1,3 +1,4 @@
+using KDrom.Persistance.Configuration;
 using Library.Application;
 using Library.Persistance;
 using Library.Persistance.Configuration;
@@ -9,13 +10,16 @@ public class Program
 	public static void Main(string[] args)
 	{
 		var builder = WebApplication.CreateBuilder(args);
+		var services = builder.Services;
+		var configuration = builder.Configuration;
 
-		builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("SmtpSettings"));
+		services.Configure<SmtpOptions>(builder.Configuration.GetSection("SmtpSettings"));
+		services.Configure<JwtTokenOptions>(builder.Configuration.GetSection("JwtOptions"));
 
-		builder.Services
-			.AddPersistanceServices(builder.Configuration)
-			.AddApplicationServices()
-			.AddWebApiServices();
+		services
+			.AddPersistanceServices(configuration)
+			.AddWebApiServices(configuration)
+			.AddApplicationServices();
 		
 		var app = builder.Build();
 

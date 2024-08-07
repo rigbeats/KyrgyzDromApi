@@ -5,15 +5,15 @@ using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
-namespace Library.Persistance.ServicesImpl
+namespace Library.Persistance.Services
 {
 	public class EmailService : IEmailService
 	{
 		private readonly SmtpOptions _smtpSettings;
         
-		public EmailService(IOptions<SmtpOptions> smtpSettings)
+		public EmailService(IOptions<SmtpOptions> smtpOptions)
         {
-            _smtpSettings = smtpSettings.Value;
+            _smtpSettings = smtpOptions.Value;
         }
         
 		public async Task SendAsync(EmailDto email)
