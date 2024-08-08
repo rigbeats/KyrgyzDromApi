@@ -17,8 +17,8 @@ public class Program
 		services.Configure<JwtTokenOptions>(builder.Configuration.GetSection("JwtOptions"));
 
 		services
-			.AddPersistanceServices(configuration)
 			.AddWebApiServices(configuration)
+			.AddPersistanceServices()
 			.AddApplicationServices();
 		
 		var app = builder.Build();

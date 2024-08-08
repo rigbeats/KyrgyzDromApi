@@ -4,7 +4,6 @@ namespace Library.Domain.Entities
 {
 	public class EntityBase
 	{
-		[MaxLength(36)]
-		public string Id { get; set; }
+		public Guid Id { get; set; }
 	}
 }

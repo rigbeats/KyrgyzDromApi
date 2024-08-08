@@ -8,9 +8,9 @@ namespace KDrom.Persistance.Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public UserRepository(AppDbContext context)
+        public UserRepository(ApplicationDbContext context)
         {
             _context = context;
         }

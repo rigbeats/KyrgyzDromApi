@@ -7,9 +7,9 @@ namespace KDrom.Persistance.Repositories
 {
     public class VerificationCodeRepository : IVerificationCodeRepository
     {
-        private readonly AppDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public VerificationCodeRepository(AppDbContext context)
+        public VerificationCodeRepository(ApplicationDbContext context)
         {
             _context = context;
         }

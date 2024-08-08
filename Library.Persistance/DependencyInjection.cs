@@ -1,7 +1,6 @@
 ﻿using KDrom.Domain.Interfaces.IRepositories;
 using KDrom.Persistance.Repositories;
 using Library.Domain.Services;
-using Library.Persistance.ServicesImpl;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,28 +9,28 @@ namespace Library.Persistance
 {
     public static class DependencyInjection
 	{
-		public static IServiceCollection AddPersistanceServices(this IServiceCollection services, IConfiguration configuration)
+		public static IServiceCollection AddPersistanceServices(this IServiceCollection services)
 		{
 			services
-				.AddDatabase(configuration)
-				.AddServices();
+				.AddDatabase()
+				.AddServices()
+				.AddRepositories();
 
 			return services;
 		}
 
-		private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
+		private static IServiceCollection AddDatabase(this IServiceCollection services)
 		{
-			var connectionString = configuration.GetConnectionString("RecipeConnectionString");
+			return services.AddDbContext<ApplicationDbContext>();
+		}
 
-			services
-				.AddDbContext<AppDbContext>(options =>
-					options.UseNpgsql(connectionString));
-
-			services.AddScoped<IUserRepository, UserRepository>();
-			services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
+		private static IServiceCollection AddRepositories(this IServiceCollection services)
+		{
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
 
 			return services;
-		}
+        }
 
 		private static IServiceCollection AddServices(this IServiceCollection services)
 		{
