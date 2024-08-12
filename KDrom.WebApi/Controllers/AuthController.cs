@@ -21,7 +21,6 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    [AuthorizeRole(UserRoleType.Admin)]
     public async Task<IActionResult> Login([FromBody] LoginQuery request)
     {
         var result = await _mediator.Send(request);

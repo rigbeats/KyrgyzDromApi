@@ -1,8 +1,7 @@
 ﻿namespace KDrom.Domain.Enums;
 
-public enum UserRoleType
+public enum RoleTypes
 {
 	Admin = 0,
-	Seller = 1,
-	Guest = 2
+	Seller = 1
 }

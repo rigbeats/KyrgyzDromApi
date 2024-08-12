@@ -4,6 +4,7 @@ using KDrom.Persistance.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Text;
 
@@ -21,11 +22,7 @@ public class JwtProvider : IJwtProvider
     public string GenerateToken(User user)
     {
         List<Claim> claims = [new("userId", user.Id.ToString())];
-
-        foreach (var roles in user.Roles)
-        {
-            claims.Add(new Claim(ClaimTypes.Role, "Admin"));
-        }
+        claims.Add(new Claim(ClaimTypes.Role, user.Role.Name));
 
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.Secret)),

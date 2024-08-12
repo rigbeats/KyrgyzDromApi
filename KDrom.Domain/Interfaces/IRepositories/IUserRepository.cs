@@ -8,9 +8,9 @@ public interface IUserRepository
 
     Task<User?> GetByIdAsync(Guid id);
 
-    Task<User?> GetByEmail(string email);
+    Task<User?> GetByEmailWithRole(string email);
 
-    Task<User?> GetByLogin(string login);
+    Task<User?> GetByLoginWithRole(string login);
 
     void UpdateAsync(User user);
 

@@ -12,17 +12,20 @@ namespace KDrom.Application.Auth.Register;
 
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Guid>
 {
-    private readonly IUserRepository _userRepository;
     private readonly IVerificationCodeRepository _userVerificationCodeRepository;
-    private readonly IEmailService _emailService;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly IUserRepository _userRepository;
+    private readonly IRoleRepository _roleRepository;
+    private readonly IEmailService _emailService;
 
     public RegisterUserCommandHandler(IUserRepository userRepository,
         IVerificationCodeRepository userVerificationCodeRepository,
-        IEmailService emailService, IPasswordHasher passwordHasherService)
+        IEmailService emailService, IPasswordHasher passwordHasherService,
+        IRoleRepository roleRepository)
     {
         _userVerificationCodeRepository = userVerificationCodeRepository;
         _passwordHasher = passwordHasherService;
+        _roleRepository = roleRepository;
         _userRepository = userRepository;
         _emailService = emailService;
     }
@@ -36,6 +39,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, G
             throw new InnerException("Пользователь с такой почтой уже зарегистрирован");
 
         var hashedPassword = _passwordHasher.Hash(request.Password);
+        var role = await _roleRepository.GetRoleByNameAsync(RoleTypes.Seller.ToString());
+
         var user = new User()
         {
             Id = Guid.NewGuid(),
@@ -45,12 +50,13 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, G
             Login = request.Login,
             PasswordHash = hashedPassword.PasswordHash,
             PasswordSalt = hashedPassword.Salt,
-            IsEmailConfirmed = false
+            IsEmailConfirmed = false,
+            Role = role
         };
 
         await _userRepository.AddAsync(user);
-        await SendMessageToEmail(user.Email, user.Id, cancellationToken);
         await _userRepository.SaveChangesAsync();
+        await SendMessageToEmail(user.Email, user.Id, cancellationToken);
 
         return user.Id;
     }

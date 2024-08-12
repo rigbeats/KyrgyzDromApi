@@ -59,13 +59,17 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
     }
 
-    public Task<User?> GetByEmail(string email)
+    public Task<User?> GetByEmailWithRole(string email)
     {
-        return _context.Users.SingleOrDefaultAsync(x => x.Email == email);
+        return _context.Users
+            .Include(x => x.Role)
+            .SingleOrDefaultAsync(x => x.Email == email);
     }
 
-    public Task<User?> GetByLogin(string login)
+    public Task<User?> GetByLoginWithRole(string login)
     {
-        return _context.Users.SingleOrDefaultAsync(x => x.Login == login);
+        return _context.Users
+            .Include(x => x.Role)
+            .SingleOrDefaultAsync(x => x.Login == login);
     }
 }

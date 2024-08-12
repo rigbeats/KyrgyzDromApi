@@ -1,4 +1,6 @@
 ﻿using KDrom.Application.Users.Queries.GetUserInfo;
+using KDrom.Domain.Enums;
+using KDrom.WebApi.Attribute;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +20,6 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize]
     public async Task<ActionResult<UserVm>> Get(Guid id)
     {
         var request = new GetUserInfoQuery()
