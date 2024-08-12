@@ -1,7 +1,10 @@
 ﻿using KDrom.Application.Auth.Login;
 using KDrom.Application.Auth.Register;
 using KDrom.Application.Auth.Verificate;
+using KDrom.Domain.Enums;
+using KDrom.WebApi.Attribute;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KDrom.WebApi.Controllers;
@@ -18,6 +21,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
+    [AuthorizeRole(UserRoleType.Admin)]
     public async Task<IActionResult> Login([FromBody] LoginQuery request)
     {
         var result = await _mediator.Send(request);

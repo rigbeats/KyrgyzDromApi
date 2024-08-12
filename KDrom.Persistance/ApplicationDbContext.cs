@@ -27,7 +27,6 @@ namespace KDrom.Persistance
 		{
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
             base.OnModelCreating(modelBuilder);
-			Database.Migrate();
 		}
 	}
 }

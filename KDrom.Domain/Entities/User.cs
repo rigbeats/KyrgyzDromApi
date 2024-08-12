@@ -1,6 +1,4 @@
-﻿using KDrom.Domain.Enums;
-
-namespace KDrom.Domain.Entities;
+﻿namespace KDrom.Domain.Entities;
 
 public class User : EntityBase
 {
@@ -18,5 +16,5 @@ public class User : EntityBase
 
     public bool IsEmailConfirmed { get; set; }
 
-    public UserRole Role { get; set; }
+    public ICollection<Role> Roles { get; set; }
 }

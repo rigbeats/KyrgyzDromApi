@@ -15,14 +15,14 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, G
     private readonly IUserRepository _userRepository;
     private readonly IVerificationCodeRepository _userVerificationCodeRepository;
     private readonly IEmailService _emailService;
-    private readonly IPasswordHasher _passwordHasherService;
+    private readonly IPasswordHasher _passwordHasher;
 
     public RegisterUserCommandHandler(IUserRepository userRepository,
         IVerificationCodeRepository userVerificationCodeRepository,
         IEmailService emailService, IPasswordHasher passwordHasherService)
     {
         _userVerificationCodeRepository = userVerificationCodeRepository;
-        _passwordHasherService = passwordHasherService;
+        _passwordHasher = passwordHasherService;
         _userRepository = userRepository;
         _emailService = emailService;
     }
@@ -35,7 +35,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, G
         if (await _userRepository.IsEmailTaken(request.Email))
             throw new InnerException("Пользователь с такой почтой уже зарегистрирован");
 
-        var hashedPassword = _passwordHasherService.Hash(request.Password);
+        var hashedPassword = _passwordHasher.Hash(request.Password);
         var user = new User()
         {
             Id = Guid.NewGuid(),
@@ -45,8 +45,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, G
             Login = request.Login,
             PasswordHash = hashedPassword.PasswordHash,
             PasswordSalt = hashedPassword.Salt,
-            IsEmailConfirmed = false,
-            Role = UserRole.User
+            IsEmailConfirmed = false
         };
 
         await _userRepository.AddAsync(user);

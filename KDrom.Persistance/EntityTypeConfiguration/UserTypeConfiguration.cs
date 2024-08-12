@@ -25,7 +25,5 @@ public class UserTypeConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.PasswordHash)
             .HasMaxLength(65);
-
-        builder.Property(u => u.Role).HasConversion<string>();
     }
 }
