@@ -22,6 +22,7 @@ public class PasswordHasher : IPasswordHasher
 
     public bool Verify(string password, string salt, string hashedPassword)
     {
+        //KeyDerivation.Pbkeydf2
         var saltedPassword = password + salt;
         var computeHash = Sha256Hash(saltedPassword);
 
