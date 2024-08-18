@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KDrom.Persistance.EntityTypeConfiguration;
 
-public class CarModelGenerationTypeConfiguration : IEntityTypeConfiguration<CarModelGeneration>
+public class CarModelGenerationTypeConfiguration : IEntityTypeConfiguration<ModelGeneration>
 {
-    public void Configure(EntityTypeBuilder<CarModelGeneration> builder)
+    public void Configure(EntityTypeBuilder<ModelGeneration> builder)
     {
         builder.Property(mg => mg.Name)
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.HasOne(mg => mg.CarModel)
-            .WithMany(m => m.CarModelGenerations)
+        builder.HasOne(mg => mg.Model)
+            .WithMany(m => m.ModelGenerations)
             .IsRequired();
 
         builder.Property(mg => mg.StartDate)

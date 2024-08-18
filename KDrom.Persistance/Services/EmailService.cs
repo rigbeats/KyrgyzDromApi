@@ -4,6 +4,7 @@ using KDrom.Persistance.Configuration;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
+using System.Diagnostics.SymbolStore;
 
 namespace KDrom.Persistance.Services;
 
@@ -16,16 +17,16 @@ public class EmailService : IEmailService
         _smtpSettings = smtpOptions.Value;
     }
 
-    public async Task SendAsync(EmailDto email)
+    public async Task SendAsync(string email, string subject, string body)
     {
         using (var emailMessage = new MimeMessage())
         {
             emailMessage.From.Add(new MailboxAddress(string.Empty, _smtpSettings.Login));
-            emailMessage.To.Add(new MailboxAddress(string.Empty, email.RecipientEmail));
-            emailMessage.Subject = email.Subject;
+            emailMessage.To.Add(new MailboxAddress(string.Empty, email));
+            emailMessage.Subject = subject;
             emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
-                Text = email.Message
+                Text = body
             };
 
             using (var client = new SmtpClient())

@@ -1,5 +1,4 @@
 ﻿using KDrom.Application.Common.Exceptions;
-using KDrom.Domain.Dto;
 using KDrom.Domain.Entities;
 using KDrom.Domain.Enums;
 using KDrom.Domain.Interfaces.IRepositories;
@@ -10,7 +9,7 @@ using MediatR;
 
 namespace KDrom.Application.Auth.Register;
 
-public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Guid>
+public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, string>
 {
     private readonly IVerificationCodeRepository _userVerificationCodeRepository;
     private readonly IPasswordHasher _passwordHasher;
@@ -30,20 +29,20 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, G
         _emailService = emailService;
     }
 
-    public async Task<Guid> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public async Task<string> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         if (await _userRepository.IsLoginTaken(request.Login))
-            throw new InnerException("Пользователь с таким логином уже существует");
+            throw new InnerException("Пользователь с таким логином уже зарегистрирован");
 
         if (await _userRepository.IsEmailTaken(request.Email))
             throw new InnerException("Пользователь с такой почтой уже зарегистрирован");
 
         var hashedPassword = _passwordHasher.Hash(request.Password);
-        var role = await _roleRepository.GetRoleByNameAsync(RoleTypes.Seller.ToString());
+        var role = await _roleRepository.FindByNameAsync(RoleTypes.Seller.ToString());
 
         var user = new User()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.NewGuid().ToString(),
             Firstname = request.FirstName,
             Lastname = request.LastName,
             Email = request.Email,
@@ -56,35 +55,33 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, G
 
         await _userRepository.AddAsync(user);
         await _userRepository.SaveChangesAsync();
-        await SendMessageToEmail(user.Email, user.Id, cancellationToken);
+        await SendVerificationCode(user.Email, user.Id);
 
         return user.Id;
     }
 
-    private async Task SendMessageToEmail(string email, Guid userId, CancellationToken cancellationToken)
+    private async Task SendVerificationCode(string email, string userId)
     {
         var verificationCode = Generator.GenerateVerificationCode(6);
+
         var template = "Asdasd";
         if (template == null)
             throw new InnerException("Не найден шаблон для отправки сообщения");
 
-        var message = template;
-        var dbCode = new VerificationCode()
+        var subject = "Активация аккаунта";
+        var body = template;
+
+        var codeDb = new VerificationCode()
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.NewGuid().ToString(),
             ExpiredAt = DateTime.UtcNow.AddMinutes(15),
             Code = verificationCode,
             UserId = userId,
         };
 
-        await _userVerificationCodeRepository.AddAsync(dbCode);
+        await _userVerificationCodeRepository.AddAsync(codeDb);
         await _userVerificationCodeRepository.SaveChangesAsync();
 
-        await _emailService.SendAsync(new EmailDto()
-        {
-            Message = message,
-            RecipientEmail = email,
-            Subject = "Активация аккаунта"
-        });
+        await _emailService.SendAsync(email, subject, body);
     }
 }

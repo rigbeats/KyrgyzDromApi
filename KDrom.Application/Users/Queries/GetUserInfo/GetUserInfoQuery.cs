@@ -2,7 +2,5 @@
 
 namespace KDrom.Application.Users.Queries.GetUserInfo;
 
-public record GetUserInfoQuery : IRequest<UserVm>
-{
-    public Guid UserId { get; set; }
-}
+public record GetUserInfoQuery(
+    string UserId) : IRequest<UserVm>;

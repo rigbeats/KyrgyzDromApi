@@ -4,20 +4,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace KDrom.Persistance.EntityTypeConfiguration;
 
-public class CarModelTypeConfiguration : IEntityTypeConfiguration<CarModel>
+public class CarModelTypeConfiguration : IEntityTypeConfiguration<Model>
 {
-    public void Configure(EntityTypeBuilder<CarModel> builder)
+    public void Configure(EntityTypeBuilder<Model> builder)
     {
         builder.Property(m => m.Name)
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.HasOne(m => m.CarMake)
-            .WithMany(m => m.CarModels)
+        builder.HasOne(m => m.Make)
+            .WithMany(m => m.Models)
             .IsRequired();
 
-        builder.HasMany(m => m.CarModelGenerations)
-            .WithOne(g => g.CarModel)
+        builder.HasMany(m => m.ModelGenerations)
+            .WithOne(g => g.Model)
             .IsRequired();
     }
 }

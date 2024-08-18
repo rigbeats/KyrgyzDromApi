@@ -4,6 +4,6 @@ namespace KDrom.Domain.Interfaces.IRepositories
 {
     public interface IRoleRepository
     {
-        Task<Role?> GetRoleByNameAsync(string roleName);
+        Task<Role?> FindByNameAsync(string roleName);
     }
 }

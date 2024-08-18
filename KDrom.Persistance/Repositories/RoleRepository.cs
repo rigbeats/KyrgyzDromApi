@@ -13,7 +13,7 @@ namespace KDrom.Persistance.Repositories
             _context = context;
         }
 
-        public async Task<Role?> GetRoleByNameAsync(string roleName)
+        public async Task<Role?> FindByNameAsync(string roleName)
         {
             return await _context.Roles.FirstOrDefaultAsync(x => x.Name == roleName);
         }

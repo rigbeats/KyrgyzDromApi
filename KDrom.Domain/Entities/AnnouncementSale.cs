@@ -2,11 +2,11 @@
 
 public class AnnouncementSale : EntityBase
 {
-    public CarMake CarMake { get; set; }
+    public Make CarMake { get; set; }
 
-    public CarModel CarModel { get; set; }
+    public Model CarModel { get; set; }
 
-    public CarModelGeneration CarModelGeneration { get; set; }
+    public ModelGeneration CarModelGeneration { get; set; }
 
     public int CarReleaseYear { get; set; }
 

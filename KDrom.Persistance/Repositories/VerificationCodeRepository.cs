@@ -18,7 +18,7 @@ public class VerificationCodeRepository : IVerificationCodeRepository
         await _context.AddAsync(verificationCode);
     }
 
-    public async Task<VerificationCode?> GetByUserIdAsync(Guid id)
+    public async Task<VerificationCode?> GetByUserIdAsync(string id)
     {
         return await _context.UserVerificationCodes.FirstOrDefaultAsync(x => x.UserId == id);
     }

@@ -1,15 +1,14 @@
 ﻿using KDrom.Application.Users.Queries.GetUserInfo;
-using KDrom.Domain.Enums;
-using KDrom.WebApi.Attribute;
+using KDrom.Domain.Dto;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-//[EnableCors("AllowAll")]
+[ProducesResponseType<ErrorDto>(StatusCodes.Status400BadRequest)]
+[ProducesResponseType<ErrorDto>(StatusCodes.Status500InternalServerError)]
 public class UserController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -20,12 +19,10 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<UserVm>> Get(Guid id)
+    [ProducesResponseType<UserVm>(StatusCodes.Status200OK)]
+    public async Task<ActionResult<UserVm>> Get(string id)
     {
-        var request = new GetUserInfoQuery()
-        {
-            UserId = id
-        };
+        var request = new GetUserInfoQuery(id);
 
         var userVm = await _mediator.Send(request);
         return Ok(userVm);
