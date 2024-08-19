@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using KDrom.Application.Common.Exceptions;
+﻿using KDrom.Application.Common.Exceptions;
 using KDrom.Domain.Interfaces.IRepositories;
+using Mapster;
 using MediatR;
 
 namespace KDrom.Application.Users.Queries.GetUserInfo;
@@ -8,13 +8,10 @@ namespace KDrom.Application.Users.Queries.GetUserInfo;
 public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, UserVm>
 {
     private readonly IUserRepository _userRepository;
-    private readonly IMapper _mapper;
 
-    public GetUserInfoQueryHandler(IUserRepository userRepository,
-    IMapper mapper)
+    public GetUserInfoQueryHandler(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        _mapper = mapper;
     }
 
     public async Task<UserVm> Handle(GetUserInfoQuery request, CancellationToken cancellationToken)
@@ -24,6 +21,6 @@ public class GetUserInfoQueryHandler : IRequestHandler<GetUserInfoQuery, UserVm>
         if (userDb == null)
             throw new InnerException("Пользователь не найден");
 
-        return _mapper.Map<UserVm>(userDb);
+        return userDb.Adapt<UserVm>();
     }
 }

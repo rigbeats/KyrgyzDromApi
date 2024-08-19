@@ -6,7 +6,7 @@ public interface IVerificationCodeRepository
 {
     Task AddAsync(VerificationCode verificationCode);
 
-    Task<VerificationCode?> GetByUserIdAsync(Guid id);
+    Task<VerificationCode?> GetByUserIdAsync(string id);
 
     Task SaveChangesAsync();
 }

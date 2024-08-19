@@ -6,15 +6,15 @@ public interface IUserRepository
 {
     Task AddAsync(User user);
 
-    Task<User?> GetByIdAsync(Guid id);
+    Task<User?> GetByIdAsync(string id);
 
-    Task<User?> GetByEmail(string email);
+    Task<User?> GetByEmailWithRole(string email);
 
-    Task<User?> GetByLogin(string login);
+    Task<User?> GetByLoginWithRole(string login);
 
-    void UpdateAsync(User user);
+    void Update(User user);
 
-    Task RemoveAsync(Guid id);
+    Task RemoveAsync(string id);
 
     IQueryable<User> GetAll();
 

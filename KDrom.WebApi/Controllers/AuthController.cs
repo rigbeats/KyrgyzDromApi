@@ -1,16 +1,16 @@
 ﻿using KDrom.Application.Auth.Login;
 using KDrom.Application.Auth.Register;
 using KDrom.Application.Auth.Verificate;
-using KDrom.Domain.Enums;
-using KDrom.WebApi.Attribute;
+using KDrom.Domain.Dto;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KDrom.WebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[ProducesResponseType<ErrorDto>(StatusCodes.Status400BadRequest)]
+[ProducesResponseType<ErrorDto>(StatusCodes.Status500InternalServerError)]
 public class AuthController : ControllerBase
 {
     private IMediator _mediator;
@@ -21,21 +21,23 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    [AuthorizeRole(UserRoleType.Admin)]
-    public async Task<IActionResult> Login([FromBody] LoginQuery request)
+    [ProducesResponseType<TokenVm>(StatusCodes.Status200OK)]
+    public async Task<ActionResult> Login([FromBody] LoginQuery request)
     {
         var result = await _mediator.Send(request);
         return Ok(result);
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<Guid>> Register([FromBody] RegisterUserCommand request)
+    [ProducesResponseType<string>(StatusCodes.Status200OK)]
+    public async Task<ActionResult<string>> Register([FromBody] RegisterUserCommand request)
     {
         var userId = await _mediator.Send(request);
         return Ok(userId);
     }
 
     [HttpPatch("verif")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Verificate([FromBody] VerificateUserCommand request)
     {
         await _mediator.Send(request);

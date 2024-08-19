@@ -2,9 +2,6 @@
 
 namespace KDrom.Application.Auth.Verificate;
 
-public class VerificateUserCommand : IRequest
-{
-    public Guid UserId { get; set; }
-
-    public string VerificationCode { get; set; }
-}
+public record VerificateUserCommand(
+    string UserId,
+    string VerificationCode) : IRequest;

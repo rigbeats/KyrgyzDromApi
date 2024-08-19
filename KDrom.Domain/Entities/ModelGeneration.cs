@@ -1,10 +1,10 @@
 ﻿namespace KDrom.Domain.Entities;
 
-public class CarModelGeneration : EntityBase
+public class ModelGeneration : EntityBase
 {
     public string Name { get; set; }
 
-    public CarModel CarModel { get; set; }
+    public Model Model { get; set; }
 
     public DateOnly StartDate { get; set; }
 

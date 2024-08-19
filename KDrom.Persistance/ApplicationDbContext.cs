@@ -15,7 +15,15 @@ namespace KDrom.Persistance
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Role> Roles { get; set; }
+
 		public DbSet<VerificationCode> UserVerificationCodes { get; set; }
+
+        public DbSet<Make> Makes { get; set; }
+
+        public DbSet<Model> Models { get; set; }
+
+        public DbSet<ModelGeneration> ModelGeneration { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

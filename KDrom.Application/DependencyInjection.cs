@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using KDrom.Application.Behaviors;
 using KDrom.Application.Common.Mappings;
+using Mapster;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -11,10 +12,11 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
+        AddMapping();
+
         return services
             .AddMediatR()
-            .AddValidation()
-            .AddMapping();
+            .AddValidation();
     }
 
     private static IServiceCollection AddMediatR(this IServiceCollection services)
@@ -33,9 +35,8 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddMapping(this IServiceCollection services)
+    private static void AddMapping()
     {
-        return services.AddAutoMapper(config =>
-            config.AddProfile(new AssemblyMappingProfile(Assembly.GetExecutingAssembly())));
+        TypeAdapterConfig.GlobalSettings.Scan(typeof(MappingConfig).Assembly);
     }
 }

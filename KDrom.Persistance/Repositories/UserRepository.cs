@@ -19,27 +19,25 @@ public class UserRepository : IUserRepository
         await _context.Users.AddAsync(user);
     }
 
-    public async Task RemoveAsync(Guid id)
+    public async Task RemoveAsync(string id)
     {
-        var uwerDb = await _context.Users.FindAsync(id);
-
-        if (uwerDb is null)
-            throw new InnerException("Пользователь не найден");
+        var uwerDb = await _context.Users.FindAsync(id)
+            ?? throw new InnerException("Пользователь не найден");
 
         _context.Users.Remove(uwerDb);
     }
 
-    public async Task<User?> GetByIdAsync(Guid id)
+    public async Task<User?> GetByIdAsync(string id)
     {
         return await _context.Users.FindAsync(id);
     }
 
     public IQueryable<User> GetAll()
     {
-        return _context.Users;
+        return _context.Users.AsNoTracking();
     }
 
-    public void UpdateAsync(User user)
+    public void Update(User user)
     {
         _context.Users.Update(user);
     }
@@ -59,13 +57,17 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
     }
 
-    public Task<User?> GetByEmail(string email)
+    public async Task<User?> GetByEmailWithRole(string email)
     {
-        return _context.Users.SingleOrDefaultAsync(x => x.Email == email);
+        return await _context.Users
+            .Include(x => x.Role)
+            .SingleOrDefaultAsync(x => x.Email == email);
     }
 
-    public Task<User?> GetByLogin(string login)
+    public async Task<User?> GetByLoginWithRole(string login)
     {
-        return _context.Users.SingleOrDefaultAsync(x => x.Login == login);
+        return await _context.Users
+            .Include(x => x.Role)
+            .SingleOrDefaultAsync(x => x.Login == login);
     }
 }

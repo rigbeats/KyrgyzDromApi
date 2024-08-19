@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KDrom.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240812133247_Init")]
+    [Migration("20240812190713_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -97,11 +97,12 @@ namespace KDrom.Persistance.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("KDrom.Domain.Entities.User", b =>
@@ -143,7 +144,12 @@ namespace KDrom.Persistance.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Users");
                 });
@@ -166,7 +172,6 @@ namespace KDrom.Persistance.Migrations
                         .HasColumnType("bit");
 
                     b.Property<Guid>("UserId")
-                        .HasMaxLength(36)
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -174,21 +179,6 @@ namespace KDrom.Persistance.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserVerificationCodes");
-                });
-
-            modelBuilder.Entity("RoleUser", b =>
-                {
-                    b.Property<Guid>("RolesId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("RolesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("RoleUser");
                 });
 
             modelBuilder.Entity("KDrom.Domain.Entities.CarModel", b =>
@@ -213,6 +203,17 @@ namespace KDrom.Persistance.Migrations
                     b.Navigation("CarModel");
                 });
 
+            modelBuilder.Entity("KDrom.Domain.Entities.User", b =>
+                {
+                    b.HasOne("KDrom.Domain.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("KDrom.Domain.Entities.VerificationCode", b =>
                 {
                     b.HasOne("KDrom.Domain.Entities.User", "User")
@@ -222,21 +223,6 @@ namespace KDrom.Persistance.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("RoleUser", b =>
-                {
-                    b.HasOne("KDrom.Domain.Entities.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("KDrom.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("KDrom.Domain.Entities.CarMake", b =>

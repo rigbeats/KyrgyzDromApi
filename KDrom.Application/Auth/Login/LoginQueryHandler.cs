@@ -22,7 +22,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, TokenVm>
 
     public async Task<TokenVm> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
-        var userDb = await _userRepository.GetByEmail(request.Email);
+        var userDb = await _userRepository.GetByEmailWithRole(request.Email);
         if (userDb is null)
             throw new InnerException("Неверный логин или пароль");
 

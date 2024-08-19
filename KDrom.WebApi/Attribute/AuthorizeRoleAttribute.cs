@@ -5,7 +5,7 @@ namespace KDrom.WebApi.Attribute;
 
 public class AuthorizeRoleAttribute : AuthorizeAttribute
 {
-    public AuthorizeRoleAttribute(params UserRoleType[] roles)
+    public AuthorizeRoleAttribute(params RoleTypes[] roles)
     {
         Roles = string.Join(",", roles.Select(x => x.ToString()));
     }

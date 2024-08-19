@@ -16,5 +16,5 @@ public class User : EntityBase
 
     public bool IsEmailConfirmed { get; set; }
 
-    public ICollection<Role> Roles { get; set; }
+    public Role Role { get; set; }
 }
