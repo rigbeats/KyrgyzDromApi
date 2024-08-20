@@ -7,13 +7,13 @@ namespace KDrom.Persistance.Services;
 
 public class PasswordHasher : IPasswordHasher
 {
-    public HashedPasswordDto Hash(string password)
+    public HashedPasswordModel Hash(string password)
     {
         var salt = GenerateSalt();
         var saltedPassword = password + salt;
         var passwordHash = Sha256Hash(saltedPassword);
 
-        return new HashedPasswordDto()
+        return new HashedPasswordModel()
         {
             PasswordHash = passwordHash,
             Salt = salt,
@@ -22,6 +22,7 @@ public class PasswordHasher : IPasswordHasher
 
     public bool Verify(string password, string salt, string hashedPassword)
     {
+        //KeyDerivation.Pbkeydf2
         var saltedPassword = password + salt;
         var computeHash = Sha256Hash(saltedPassword);
 

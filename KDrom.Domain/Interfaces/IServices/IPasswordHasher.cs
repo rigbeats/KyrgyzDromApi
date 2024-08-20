@@ -4,7 +4,7 @@ namespace KDrom.Domain.Interfaces.IServices;
 
 public interface IPasswordHasher
 {
-    HashedPasswordDto Hash(string password);
+    HashedPasswordModel Hash(string password);
 
     bool Verify(string password, string salt, string hashedPassword);
 }

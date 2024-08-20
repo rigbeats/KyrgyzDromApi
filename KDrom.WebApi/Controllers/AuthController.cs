@@ -1,6 +1,9 @@
-﻿using KDrom.Application.Auth.Login;
-using KDrom.Application.Auth.Register;
-using KDrom.Application.Auth.Verificate;
+﻿using KDrom.Application.MediatR.Auth.Dtos;
+using KDrom.Application.MediatR.Auth.Login;
+using KDrom.Application.MediatR.Auth.Logout;
+using KDrom.Application.MediatR.Auth.Refresh;
+using KDrom.Application.MediatR.Auth.Register;
+using KDrom.Application.MediatR.Auth.Verificate;
 using KDrom.Domain.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +24,8 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    [ProducesResponseType<TokenVm>(StatusCodes.Status200OK)]
-    public async Task<ActionResult> Login([FromBody] LoginQuery request)
+    [ProducesResponseType<TokenDto>(StatusCodes.Status200OK)]
+    public async Task<ActionResult<TokenDto>> Login([FromBody] LoginQuery request)
     {
         var result = await _mediator.Send(request);
         return Ok(result);
@@ -36,9 +39,25 @@ public class AuthController : ControllerBase
         return Ok(userId);
     }
 
-    [HttpPatch("verif")]
+    [HttpPatch("verificate")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<ActionResult> Verificate([FromBody] VerificateUserCommand request)
+    {
+        await _mediator.Send(request);
+        return NoContent();
+    }
+
+    [HttpPost("refresh")]
+    [ProducesResponseType<TokenDto>(StatusCodes.Status200OK)]
+    public async Task<ActionResult<TokenDto>> Refresh([FromBody] RefreshTokenCommand request)
+    {
+        var result = await _mediator.Send(request);
+        return Ok(result);
+    }
+
+    [HttpPost("logout")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<ActionResult> Logout([FromBody] LogoutCommand request)
     {
         await _mediator.Send(request);
         return NoContent();
