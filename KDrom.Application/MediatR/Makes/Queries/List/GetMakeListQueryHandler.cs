@@ -3,7 +3,7 @@ using KDrom.Domain.Interfaces.IRepositories;
 using Mapster;
 using MediatR;
 
-namespace KDrom.Application.MediatR.Makes.Queries.GetList;
+namespace KDrom.Application.MediatR.Makes.Queries.List;
 
 public class GetMakeListQueryHandler : IRequestHandler<GetMakeListQuery, MakeListDto>
 {
