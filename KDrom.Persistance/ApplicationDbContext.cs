@@ -1,6 +1,7 @@
 ﻿using KDrom.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Org.BouncyCastle.Bcpg.OpenPgp;
 
 namespace KDrom.Persistance
 {
@@ -23,7 +24,9 @@ namespace KDrom.Persistance
 
         public DbSet<Model> Models { get; set; }
 
-        public DbSet<ModelGeneration> ModelGeneration { get; set; }
+        public DbSet<ModelGeneration> ModelGenerations { get; set; }
+
+        public DbSet<UserRefreshToken> UserRefreshTokens { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

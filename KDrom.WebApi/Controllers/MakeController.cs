@@ -1,6 +1,7 @@
-﻿using KDrom.Application.Makes.Commands.Create;
-using KDrom.Application.Makes.Commands.Update;
-using KDrom.Application.Makes.Queries.GetList;
+﻿using KDrom.Application.MediatR.Makes.Commands.Create;
+using KDrom.Application.MediatR.Makes.Commands.Update;
+using KDrom.Application.MediatR.Makes.Dtos;
+using KDrom.Application.MediatR.Makes.Queries.GetList;
 using KDrom.Domain.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +22,8 @@ public class MakeController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType<MakeListVm>(StatusCodes.Status200OK)]
-    public async Task<ActionResult<MakeListVm>> GetList()
+    [ProducesResponseType<MakeListDto>(StatusCodes.Status200OK)]
+    public async Task<ActionResult<MakeListDto>> GetList()
     {
         var request = new GetMakeListQuery();
 

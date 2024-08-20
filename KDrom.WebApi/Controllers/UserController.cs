@@ -1,4 +1,5 @@
-﻿using KDrom.Application.Users.Queries.GetUserInfo;
+﻿using KDrom.Application.MediatR.Users.Dtos;
+using KDrom.Application.MediatR.Users.Queries.GetUserInfo;
 using KDrom.Domain.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +20,8 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [ProducesResponseType<UserVm>(StatusCodes.Status200OK)]
-    public async Task<ActionResult<UserVm>> Get(string id)
+    [ProducesResponseType<UserDto>(StatusCodes.Status200OK)]
+    public async Task<ActionResult<UserDto>> Get(string id)
     {
         var request = new GetUserInfoQuery(id);
 

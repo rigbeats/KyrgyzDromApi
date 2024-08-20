@@ -30,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IMakeRepository, MakeRepository>();
+        services.AddScoped<IUserRefreshTokenRepository, UserRefreshTokenRepository>();
 
         return services;
     }

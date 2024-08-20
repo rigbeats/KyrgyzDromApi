@@ -1,4 +1,4 @@
-﻿using KDrom.Application.Makes.Queries.GetList;
+﻿using KDrom.Application.MediatR.Makes.Dtos;
 using KDrom.Domain.Entities;
 using Mapster;
 
@@ -8,7 +8,7 @@ public class MappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<Make, MakeListVm>()
+        config.NewConfig<Make, MakeListDto>()
             .Map(dest => dest.MakeNames, src => src.Name);
     }
 }
