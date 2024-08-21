@@ -18,10 +18,4 @@
     <ProjectReference Include="..\KDrom.Utilities\KDrom.Utilities.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="MediatR\Models\Commands\Update\" />
-    <Folder Include="MediatR\Models\Dtos\" />
-    <Folder Include="MediatR\Models\Queries\ListByMake\" />
-  </ItemGroup>
-
 </Project>

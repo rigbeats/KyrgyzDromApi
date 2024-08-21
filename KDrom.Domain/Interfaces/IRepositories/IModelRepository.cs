@@ -6,11 +6,13 @@ namespace KDrom.Domain.Interfaces.IRepositories
     {
         Task<IEnumerable<Model>> GetAll();
 
-        Task<IEnumerable<Model>> GetAllByMake(Make make);
+        Task<IEnumerable<Model>> GetAllByMakeIdAsync(string makeId);
 
         IQueryable<Model> AsQueryble();
 
-        Task<Model?> Find(string id);
+        Task<Model?> FindAsync(string id);
+
+        Task<bool> ExistByNameAndBrandId(string name, string makeId);
 
         Task AddAsync(Model model);
 

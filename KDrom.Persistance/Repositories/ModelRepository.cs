@@ -18,9 +18,15 @@ public class ModelRepository : IModelRepository
         await _context.Models.AddAsync(model);
     }
 
-    public async Task<Model?> Find(string id)
+    public async Task<Model?> FindAsync(string id)
     {
         return await _context.Models.FindAsync(id);
+    }
+
+    public Task<bool> ExistByNameAndBrandId(string name, string makeId)
+    {
+        return _context.Models
+            .AnyAsync(x => x.Name == name && x.MakeId == makeId);
     }
 
     public async Task<IEnumerable<Model>> GetAll()
@@ -33,10 +39,10 @@ public class ModelRepository : IModelRepository
         return _context.Models.AsNoTracking();
     }
 
-    public async Task<IEnumerable<Model>> GetAllByMake(Make make)
+    public async Task<IEnumerable<Model>> GetAllByMakeIdAsync(string makeId)
     {
         return await _context.Models.AsNoTracking()
-            .Where(x => x.Make == make).ToListAsync();
+            .Where(x => x.MakeId == makeId).ToListAsync();
     }
 
     public void Remove(Model model)
