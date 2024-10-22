@@ -2,20 +2,13 @@
 using KDrom.Domain.Interfaces.IRepositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace KDrom.Persistance.Repositories
+namespace KDrom.Persistance.Repositories;
+
+public class RoleRepository : RepositoryBase<Role>, IRoleRepository
 {
-    public class RoleRepository : IRoleRepository
-    {
-        private readonly ApplicationDbContext _context;
+    public RoleRepository(ApplicationDbContext context) : base(context) { }
 
-        public RoleRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-        public async Task<Role?> FindByNameAsync(string roleName)
-        {
-            return await _context.Roles.FirstOrDefaultAsync(x => x.Name == roleName);
-        }
-    }
+    public Task<Role?> FindByRoleNameAsync(string roleName)
+        => Set
+        .SingleOrDefaultAsync(x => x.Name == roleName);
 }

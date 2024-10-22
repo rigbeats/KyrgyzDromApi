@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 
 namespace KDrom.WebApi;
@@ -45,6 +46,12 @@ public static class DependencyInjection
                     Array.Empty<string>()
                 }
             });
+
+            opt.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            opt.IncludeXmlComments(xmlPath, true);
         });
 
         return services;

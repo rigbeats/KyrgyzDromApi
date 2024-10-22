@@ -18,7 +18,7 @@ namespace KDrom.Persistance
 
         public DbSet<Role> Roles { get; set; }
 
-		public DbSet<VerificationCode> UserVerificationCodes { get; set; }
+		public DbSet<UserVerificationCode> UserVerificationCodes { get; set; }
 
         public DbSet<Make> Makes { get; set; }
 

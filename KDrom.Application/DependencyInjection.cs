@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using KDrom.Application.Behaviors;
-using KDrom.Application.Common.Mappings;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +36,6 @@ public static class DependencyInjection
 
     private static void AddMapping()
     {
-        TypeAdapterConfig.GlobalSettings.Scan(typeof(MappingConfig).Assembly);
+        //TypeAdapterConfig.GlobalSettings.Scan(typeof(MappingConfig).Assembly);
     }
 }

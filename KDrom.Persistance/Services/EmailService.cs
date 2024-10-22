@@ -1,10 +1,8 @@
-﻿using KDrom.Domain.Dto;
-using KDrom.Domain.Interfaces.Services;
+﻿using KDrom.Domain.Interfaces.Services;
 using KDrom.Persistance.Configuration;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using System.Diagnostics.SymbolStore;
 
 namespace KDrom.Persistance.Services;
 

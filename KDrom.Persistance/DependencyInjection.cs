@@ -26,11 +26,12 @@ public static class DependencyInjection
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IVerificationCodeRepository, VerificationCodeRepository>();
-        services.AddScoped<IRoleRepository, RoleRepository>();
-        services.AddScoped<IMakeRepository, MakeRepository>();
+        services.AddScoped(typeof(IRepository<>), typeof(RepositoryBase<>));
+
+        services.AddScoped<IUserVerificationCodeRepository, UserVerificationCodeRepository>();
         services.AddScoped<IUserRefreshTokenRepository, UserRefreshTokenRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
 
         return services;
     }
@@ -38,9 +39,9 @@ public static class DependencyInjection
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
         services
-            .AddTransient<IEmailService, EmailService>()
-            .AddTransient<IPasswordHasher, PasswordHasher>()
-            .AddTransient<IJwtProvider, JwtProvider>();
+            .AddScoped<IEmailService, EmailService>()
+            .AddScoped<IPasswordHasher, PasswordHasher>()
+            .AddScoped<IJwtProvider, JwtProvider>();
 
         return services;
     }
