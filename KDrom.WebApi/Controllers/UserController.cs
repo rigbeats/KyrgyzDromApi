@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Library.WebApi.Controllers;
 
+/// <summary>
+/// User controller
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [ProducesResponseType<ErrorDto>(StatusCodes.Status400BadRequest)]

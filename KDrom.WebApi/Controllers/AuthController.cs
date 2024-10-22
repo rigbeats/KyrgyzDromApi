@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KDrom.WebApi.Controllers;
 
+/// <summary>
+/// Auth controller
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [ProducesResponseType<ErrorDto>(StatusCodes.Status400BadRequest)]

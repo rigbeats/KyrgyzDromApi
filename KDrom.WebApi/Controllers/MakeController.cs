@@ -1,13 +1,15 @@
 ﻿using KDrom.Application.MediatR.Makes.Commands.Create;
 using KDrom.Application.MediatR.Makes.Commands.Update;
-using KDrom.Application.MediatR.Makes.Dtos;
-using KDrom.Application.MediatR.Makes.Queries.GetList;
+using KDrom.Application.MediatR.Makes.Queries.List;
 using KDrom.Domain.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KDrom.WebApi.Controllers;
 
+/// <summary>
+/// Car makes controller
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [ProducesResponseType<ErrorDto>(StatusCodes.Status400BadRequest)]
@@ -22,8 +24,8 @@ public class MakeController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType<MakeListDto>(StatusCodes.Status200OK)]
-    public async Task<ActionResult<MakeListDto>> GetList()
+    [ProducesResponseType<List<string>>(StatusCodes.Status200OK)]
+    public async Task<ActionResult<List<string>>> GetList()
     {
         var request = new GetMakeListQuery();
 
